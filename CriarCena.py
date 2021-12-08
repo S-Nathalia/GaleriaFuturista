@@ -100,6 +100,7 @@ def criar():
     sala(VAO[1], VBO[1], sala_buffer)
     sala(VAO[6], VBO[6], banco_buffer)
     sala(VAO[2], VBO[2], mulher_buffer)
+    sala(VAO[7], VBO[7], escultura_buffer)
 
     cubo(VAO[3], VBO[3], cubo_buffer, EBO, cubo_indices)
     cubo(VAO[4], VBO[4], cubo_buffer, EBO, cubo_indices)
@@ -159,15 +160,15 @@ def criar():
         view = cam.get_view_matrix()
         glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
-        desenhar_cubo(cubo_picasso_pos, cubo_indices, VAO[3], texturas[3],ct, model_loc)
-        desenhar_cubo(cubo_vahgogh_pos, cubo_indices, VAO[4], texturas[4],ct, model_loc)
-        desenhar_cubo(cubo_davinci_pos, cubo_indices, VAO[5], texturas[5],ct, model_loc)
+        desenhar_cubo(cubo_picasso_pos, cubo_indices, VAO[3], texturas[3], ct, model_loc)
+        desenhar_cubo(cubo_vahgogh_pos, cubo_indices, VAO[4], texturas[4], ct, model_loc)
+        desenhar_cubo(cubo_davinci_pos, cubo_indices, VAO[5], texturas[5], ct, model_loc)
 
-        desenhar_sala(VAO[0], texturas[0], sala_indices, chao_pos, model_loc,GL_TRIANGLES)
-        desenhar_sala(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc,GL_TRIANGLES)
-        desenhar_sala(VAO[1], texturas[1], sala_indices, teto_pos, model_loc,GL_TRIANGLES)
-        desenhar_sala(VAO[6], texturas[6], banco_indices, banco_pos, model_loc,GL_TRIANGLES)
-
+        desenhar_sala(VAO[0], texturas[0], sala_indices, chao_pos, model_loc, GL_TRIANGLES)
+        desenhar_sala(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc, GL_TRIANGLES)
+        desenhar_sala(VAO[1], texturas[1], sala_indices, teto_pos, model_loc, GL_TRIANGLES)
+        desenhar_sala(VAO[6], texturas[6], banco_indices, banco_pos, model_loc, GL_TRIANGLES)
+        desenhar_sala(VAO[7], texturas[7], escultura_indices, escultura_pos, model_loc, GL_TRIANGLES)
         pygame.display.flip()
 
     pygame.quit()
