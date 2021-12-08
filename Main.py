@@ -1,0 +1,2 @@
+from CriarCena import *
+criar()
