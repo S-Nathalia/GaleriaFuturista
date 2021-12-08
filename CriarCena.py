@@ -180,11 +180,11 @@ def criar():
         desenhar_objetos(VAO[8], texturas[8], quadro1_indices, quadro1_pos, model_loc,GL_TRIANGLES)
         desenhar_objetos(VAO[9], texturas[9], quadro2_indices, quadro2_pos, model_loc,GL_TRIANGLES)
 
-        desenhar_sala(VAO[0], texturas[0], sala_indices, chao_pos, model_loc, GL_TRIANGLES)
-        desenhar_sala(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc, GL_TRIANGLES)
-        desenhar_sala(VAO[1], texturas[1], sala_indices, teto_pos, model_loc, GL_TRIANGLES)
-        desenhar_sala(VAO[6], texturas[6], banco_indices, banco_pos, model_loc, GL_TRIANGLES)
-        desenhar_sala(VAO[7], texturas[7], escultura_indices, escultura_pos, model_loc, GL_TRIANGLES)
+        # desenhar_sala(VAO[0], texturas[0], sala_indices, chao_pos, model_loc, GL_TRIANGLES)
+        # desenhar_sala(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc, GL_TRIANGLES)
+        # desenhar_sala(VAO[1], texturas[1], sala_indices, teto_pos, model_loc, GL_TRIANGLES)
+        # desenhar_sala(VAO[6], texturas[6], banco_indices, banco_pos, model_loc, GL_TRIANGLES)
+        # desenhar_sala(VAO[7], texturas[7], escultura_indices, escultura_pos, model_loc, GL_TRIANGLES)
         pygame.display.flip()
 
     pygame.quit()
