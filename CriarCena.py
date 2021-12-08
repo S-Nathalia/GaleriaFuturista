@@ -53,7 +53,7 @@ void main()
 def carregar_texturas(caminho, textura):
     carregar_textura_pygame(caminho, textura)
 
-def desenhar_sala(VAO, textura, indice, posicao, model_loc, GL):
+def desenhar_objetos(VAO, textura, indice, posicao, model_loc, GL):
 
     glBindVertexArray(VAO)
     glBindTexture(GL_TEXTURE_2D, textura)
@@ -87,19 +87,25 @@ def criar():
     sala_indices, sala_buffer = CarregarObj.carregar_model("meshes/chao/chao.obj")
     banco_indices, banco_buffer = CarregarObj.carregar_model("meshes/banco/banco.obj")
     mulher_indices, mulher_buffer = CarregarObj.carregar_model("meshes/mulher_sentada/mulher_sentada.obj")
+    nave_indices, nave_buffer = CarregarObj.carregar_model("meshes/nave/untitled.obj")
+    quadro1_indices, quadro1_buffer = CarregarObj.carregar_model("meshes/quadro/quadro.obj")
+    quadro2_indices, quadro2_buffer = CarregarObj.carregar_model("meshes/quadro/quadro2.obj")
 
     shader = compileProgram(compileShader(vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 
     # VAO e VBO
-    VAO = glGenVertexArrays(9)
-    VBO = glGenBuffers(9)
+    VAO = glGenVertexArrays(10)
+    VBO = glGenBuffers(10)
     EBO = glGenBuffers(1)
-    texturas = glGenTextures(9)
+    texturas = glGenTextures(10)
 
     sala(VAO[0], VBO[0], sala_buffer)
     sala(VAO[1], VBO[1], sala_buffer)
     sala(VAO[6], VBO[6], banco_buffer)
     sala(VAO[2], VBO[2], mulher_buffer)
+    sala(VAO[7], VBO[7], nave_buffer)
+    sala(VAO[8], VBO[8], quadro1_buffer)
+    sala(VAO[9], VBO[9], quadro1_buffer)
 
     cubo(VAO[3], VBO[3], cubo_buffer, EBO, cubo_indices)
     cubo(VAO[4], VBO[4], cubo_buffer, EBO, cubo_indices)
@@ -112,6 +118,9 @@ def criar():
     carregar_texturas("meshes/cubos/cubo_vahgogh.png", texturas[4])
     carregar_texturas("meshes/cubos/cubo_davinci.png", texturas[5])
     carregar_texturas("meshes/texturas_auxiliar/wood.jpg", texturas[6])
+    carregar_texturas("meshes/nave/ufo_diffuse.png", texturas[7])    
+    carregar_texturas("meshes/quadro/quadro1.jpg", texturas[8]) 
+    carregar_texturas("meshes/quadro/quadro5.jpg", texturas[9])    
 
     glUseProgram(shader)
     glClearColor(0, 0.1, 0.1, 1)
@@ -120,13 +129,16 @@ def criar():
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     projection = pyrr.matrix44.create_perspective_projection_matrix(45, 1280 / 720, 0.1, 100)
-    mulher_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 2, -13]))
+    mulher_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 1.2, -13]))
     chao_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0, 0]))
     teto_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 20, 0]))
     cubo_picasso_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-15, 5, -10]))
     cubo_vahgogh_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-13, 5, -15]))
     cubo_davinci_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-10, 7, -8]))
-    banco_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 1, -15]))
+    banco_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0.1, -15]))
+    nave_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 19, -15]))
+    quadro1_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 6, -15]))
+    quadro2_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([10, 6, -15]))
 
     model_loc = glGetUniformLocation(shader, "model")
     proj_loc = glGetUniformLocation(shader, "projection")
@@ -163,10 +175,13 @@ def criar():
         desenhar_cubo(cubo_vahgogh_pos, cubo_indices, VAO[4], texturas[4],ct, model_loc)
         desenhar_cubo(cubo_davinci_pos, cubo_indices, VAO[5], texturas[5],ct, model_loc)
 
-        desenhar_sala(VAO[0], texturas[0], sala_indices, chao_pos, model_loc,GL_TRIANGLES)
-        desenhar_sala(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc,GL_TRIANGLES)
-        desenhar_sala(VAO[1], texturas[1], sala_indices, teto_pos, model_loc,GL_TRIANGLES)
-        desenhar_sala(VAO[6], texturas[6], banco_indices, banco_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[0], texturas[0], sala_indices, chao_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[1], texturas[1], sala_indices, teto_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[6], texturas[6], banco_indices, banco_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[7], texturas[7], nave_indices, nave_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[8], texturas[8], quadro1_indices, quadro1_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[9], texturas[9], quadro2_indices, quadro2_pos, model_loc,GL_TRIANGLES)
 
         pygame.display.flip()
 
