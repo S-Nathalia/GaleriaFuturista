@@ -1,4 +1,5 @@
 from CriarCena import *
+from Camera import Camera
 import pygame
 
 cam = Camera()
