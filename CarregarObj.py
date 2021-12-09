@@ -15,25 +15,25 @@ class CarregarObj:
                 coordenadas.append(int(d)-1)
 
 
-    @staticmethod # sorted vertex buffer for use with glDrawArrays function
+    @staticmethod # buffer de vértice classificado para uso com função glDrawArrays
     def criar_vertex_buffer(indices_data, vertices, texturas, normals):
         for i, ind in enumerate(indices_data):
-            if i % 3 == 0: # sort the vertex coordenadas
+            if i % 3 == 0: # ordena o vertex coordenadas
                 inicio = ind * 3
                 fim = inicio + 3
                 CarregarObj.buffer.extend(vertices[inicio:fim])
-            elif i % 3 == 1: # sort the texture coordenadas
+            elif i % 3 == 1: # ordena o texture coordenadas
                 inicio = ind * 2
                 fim = inicio + 2
                 CarregarObj.buffer.extend(texturas[inicio:fim])
-            elif i % 3 == 2: # sort the normal vectors
+            elif i % 3 == 2: # ordena o normal vectors
                 inicio = ind * 3
                 fim = inicio + 3
                 CarregarObj.buffer.extend(normals[inicio:fim])
 
 
-    @staticmethod # TODO unsorted vertex buffer for use with glDrawElements function
-    def create_unsorted_vertex_buffer(indices_data, vertices, texturas, normals):
+    @staticmethod
+    def criar_nordenado_vertex_buffer(indices_data, vertices, texturas, normals):
         num_verts = len(vertices) // 3
 
         for i1 in range(num_verts):
@@ -64,12 +64,12 @@ class CarregarObj:
 
     @staticmethod
     def carregar_model(file, sorted=True):
-        vert_coords = [] # will contain all the vertex coordenadas
-        tex_coords = [] # will contain all the texture coordenadas
-        norm_coords = [] # will contain all the vertex normals
+        vert_coords = [] # ira conter todos os vertices de coordenadas
+        tex_coords = [] # todas as coordenadas de texturas
+        norm_coords = [] # todos vertex normals
 
-        todos_indices = [] # will contain all the vertex, texture and normal indices
-        indices = [] # will contain the indices for indexed drawing
+        todos_indices = [] # ira conter os normal vertices, texturas
+        indices = [] # ira conter os indices de desenhar
 
 
         with open(file, 'r') as f:
@@ -92,15 +92,13 @@ class CarregarObj:
                 line = f.readline()
 
         if sorted:
-            # use with glDrawArrays
+            # glDrawArrays
             CarregarObj.criar_vertex_buffer(todos_indices, vert_coords, tex_coords, norm_coords)
         else:
-            # use with glDrawElements
-            CarregarObj.create_unsorted_vertex_buffer(todos_indices, vert_coords, tex_coords, norm_coords)
+            # glDrawElements
+            CarregarObj.criar_nordenado_vertex_buffer(todos_indices, vert_coords, tex_coords, norm_coords)
 
-        # CarregarObj.exibir_buffer_data(CarregarObj.buffer)
-
-        buffer = CarregarObj.buffer.copy() # create a local copy of the buffer list, otherwise it will overwrite the static field buffer
-        CarregarObj.buffer = [] # after copy, make sure to set it back to an empty list
+        buffer = CarregarObj.buffer.copy() # criar uma copia para nao sobreescrever o campo estatico
+        CarregarObj.buffer = [] # para mexer na lista vazia novamente depois de copiar
 
         return np.array(indices, dtype='uint32'), np.array(buffer, dtype='float32')

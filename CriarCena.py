@@ -2,7 +2,7 @@ from Movimento import *
 from Espaco import *
 from Camera import Camera
 from CarregarObj import CarregarObj
-from CarregarTextura import carregar_textura_pygame
+from CarregarTextura import *
 import pyrr
 from OpenGL.GL.shaders import compileProgram, compileShader
 from OpenGL.GL import *
