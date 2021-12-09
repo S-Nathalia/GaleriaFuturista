@@ -87,7 +87,6 @@ def criar():
     quadro4_indices, quadro4_buffer = CarregarObj.carregar_model("meshes/quadro/quadro5.obj")
     peca_indices, peca_buffer = CarregarObj.carregar_model("meshes/peca/12927_Wooden_Chess_Queen_side_A_v1_l3.obj")
     flame_indices, flame_buffer = CarregarObj.carregar_model("meshes/objetos extras/fogo.obj")
-
     shader = compileProgram(compileShader(
         vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 
@@ -135,13 +134,13 @@ def criar():
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     projection = pyrr.matrix44.create_perspective_projection_matrix(45, 1280 / 720, 0.1, 100)
-    mulher_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 1.2, -13]))
+    mulher_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 1.2, -18.8]))
     chao_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0, 0]))
     teto_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 20, 0]))
     cubo_picasso_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-15, 5, -10]))
     cubo_vahgogh_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-13, 5, -15]))
     cubo_davinci_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-10, 7, -8]))
-    banco_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0.1, -15]))
+    banco_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0.1, -20]))
     nave_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 19, -15]))
     quadro1_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 6, -25]))
     quadro2_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([15, 4, -25]))
@@ -196,5 +195,6 @@ def criar():
         desenhar_objetos(VAO[11], texturas[11], quadro4_indices, quadro4_pos, model_loc,GL_TRIANGLES)
         desenhar_objetos(VAO[12], texturas[12], peca_indices, peca_pos, model_loc,GL_TRIANGLES)
         desenhar_objetos(VAO[13], texturas[13], flame_indices,flame_pos, model_loc, GL_TRIANGLES)
+
 
         pygame.display.flip()
