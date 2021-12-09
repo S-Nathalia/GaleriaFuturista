@@ -1,32 +1,28 @@
+from Movimento import *
+from Espaco import *
+from Camera import Camera
+from CarregarObj import CarregarObj
+from CarregarTextura import carregar_textura_pygame
+import pyrr
+from OpenGL.GL.shaders import compileProgram, compileShader
+from OpenGL.GL import *
+import pygame
 import os
 os.environ['SDL_VIDEO_WINDOW_POS'] = '400,200'
 
-import pygame
-from OpenGL.GL import *
-from OpenGL.GL.shaders import compileProgram, compileShader
-import pyrr
-from CarregarTextura import carregar_textura_pygame
-from CarregarObj import CarregarObj
-from Camera import Camera
-from Espaco import *
-from Movimento import *
 
 LARGURA, ALTURA = 1280, 720
 lastX, lastY = LARGURA / 2, ALTURA / 2
 
 vertex_src = """
 # version 330
-
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec2 a_texture;
 layout(location = 2) in vec3 a_normal;
-
 uniform mat4 model;
 uniform mat4 projection;
 uniform mat4 view;
-
 out vec2 v_texture;
-
 void main()
 {
     gl_Position = projection * view * model * vec4(a_position, 1.0);
@@ -36,13 +32,9 @@ void main()
 
 fragment_src = """
 # version 330
-
 in vec2 v_texture;
-
 out vec4 out_color;
-
 uniform sampler2D s_texture;
-
 void main()
 {
     out_color = texture(s_texture, v_texture);
@@ -52,6 +44,7 @@ void main()
 
 def carregar_texturas(caminho, textura):
     carregar_textura_pygame(caminho, textura)
+
 
 def desenhar_objetos(VAO, textura, indice, posicao, model_loc, GL):
 
@@ -77,10 +70,10 @@ def desenhar_cubo(cubo_pos, cubo_indices, VAO, textura, ct, model_loc):
 def criar():
 
     pygame.init()
-    pygame.display.set_mode((LARGURA, ALTURA), pygame.OPENGL | pygame.DOUBLEBUF | pygame.RESIZABLE) # |pygame.FULLSCREEN
+    pygame.display.set_mode((LARGURA, ALTURA), pygame.OPENGL |
+                            pygame.DOUBLEBUF | pygame.RESIZABLE)  # |pygame.FULLSCREEN
     pygame.mouse.set_visible(False)
     pygame.event.set_grab(True)
-
 
     # carregando os meshes
     cubo_indices, cubo_buffer = CarregarObj.carregar_model("meshes/cubos/cubo.obj", False)
@@ -93,14 +86,15 @@ def criar():
     quadro3_indices, quadro3_buffer = CarregarObj.carregar_model("meshes/quadro/quadro3.obj")
     quadro4_indices, quadro4_buffer = CarregarObj.carregar_model("meshes/quadro/quadro5.obj")
     peca_indices, peca_buffer = CarregarObj.carregar_model("meshes/peca/12927_Wooden_Chess_Queen_side_A_v1_l3.obj")
-
-    shader = compileProgram(compileShader(vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
+    flame_indices, flame_buffer = CarregarObj.carregar_model("meshes/objetos extras/fogo.obj")
+    shader = compileProgram(compileShader(
+        vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 
     # VAO e VBO
-    VAO = glGenVertexArrays(13)
-    VBO = glGenBuffers(13)
+    VAO = glGenVertexArrays(14)
+    VBO = glGenBuffers(14)
     EBO = glGenBuffers(1)
-    texturas = glGenTextures(13)
+    texturas = glGenTextures(14)
 
     sala(VAO[0], VBO[0], sala_buffer)
     sala(VAO[1], VBO[1], sala_buffer)
@@ -112,6 +106,7 @@ def criar():
     sala(VAO[10], VBO[10], quadro3_buffer)
     sala(VAO[11], VBO[11], quadro4_buffer)
     sala(VAO[12], VBO[12], peca_buffer)
+    sala(VAO[13], VBO[13], flame_buffer)
 
     cubo(VAO[3], VBO[3], cubo_buffer, EBO, cubo_indices)
     cubo(VAO[4], VBO[4], cubo_buffer, EBO, cubo_indices)
@@ -124,12 +119,13 @@ def criar():
     carregar_texturas("meshes/cubos/cubo_vahgogh.png", texturas[4])
     carregar_texturas("meshes/cubos/cubo_davinci.png", texturas[5])
     carregar_texturas("meshes/texturas_auxiliar/wood.jpg", texturas[6])
-    carregar_texturas("meshes/nave/ufo_diffuse.png", texturas[7])    
-    carregar_texturas("meshes/quadro/quadro1.jpg", texturas[8]) 
-    carregar_texturas("meshes/quadro/quadro3.jpg", texturas[9])  
-    carregar_texturas("meshes/quadro/quadro6.jpg", texturas[10])  
-    carregar_texturas("meshes/quadro/casal.jpg", texturas[11]) 
+    carregar_texturas("meshes/nave/ufo_diffuse.png", texturas[7])
+    carregar_texturas("meshes/quadro/quadro1.jpg", texturas[8])
+    carregar_texturas("meshes/quadro/quadro3.jpg", texturas[9])
+    carregar_texturas("meshes/quadro/quadro6.jpg", texturas[10])
+    carregar_texturas("meshes/quadro/casal.jpg", texturas[11])
     carregar_texturas("meshes/texturas_auxiliar/prata.jpg", texturas[12])
+    carregar_texturas("meshes/texturas_auxiliar/red.jpg", texturas[13])
 
     glUseProgram(shader)
     glClearColor(0, 0.1, 0.1, 1)
@@ -151,6 +147,7 @@ def criar():
     quadro3_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-25, 3, 6]))
     quadro4_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 3, 25]))
     peca_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([22, 0.1, 5]))
+    flame_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-10, 1, 13]))
 
     model_loc = glGetUniformLocation(shader, "model")
     proj_loc = glGetUniformLocation(shader, "projection")
@@ -164,14 +161,14 @@ def criar():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif  event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False
 
             if event.type == pygame.VIDEORESIZE:
                 glViewport(0, 0, event.w, event.h)
-                projection = pyrr.matrix44.create_perspective_projection_matrix(45, event.w / event.h, 0.1, 100)
+                projection = pyrr.matrix44.create_perspective_projection_matrix(
+                    45, event.w / event.h, 0.1, 100)
                 glUniformMatrix4fv(proj_loc, 1, GL_FALSE, projection)
-
 
         configura_teclas_movimento()
         configura_mouse()
@@ -183,9 +180,9 @@ def criar():
         view = cam.get_view_matrix()
         glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
-        desenhar_cubo(cubo_picasso_pos, cubo_indices, VAO[3], texturas[3],ct, model_loc)
-        desenhar_cubo(cubo_vahgogh_pos, cubo_indices, VAO[4], texturas[4],ct, model_loc)
-        desenhar_cubo(cubo_davinci_pos, cubo_indices, VAO[5], texturas[5],ct, model_loc)
+        desenhar_cubo(cubo_picasso_pos, cubo_indices, VAO[3], texturas[3], ct, model_loc)
+        desenhar_cubo(cubo_vahgogh_pos, cubo_indices, VAO[4], texturas[4], ct, model_loc)
+        desenhar_cubo(cubo_davinci_pos, cubo_indices, VAO[5], texturas[5], ct, model_loc)
 
         desenhar_objetos(VAO[0], texturas[0], sala_indices, chao_pos, model_loc,GL_TRIANGLES)
         desenhar_objetos(VAO[2], texturas[2], mulher_indices, mulher_pos, model_loc,GL_TRIANGLES)
@@ -197,7 +194,7 @@ def criar():
         desenhar_objetos(VAO[10], texturas[10], quadro3_indices, quadro3_pos, model_loc,GL_TRIANGLES)
         desenhar_objetos(VAO[11], texturas[11], quadro4_indices, quadro4_pos, model_loc,GL_TRIANGLES)
         desenhar_objetos(VAO[12], texturas[12], peca_indices, peca_pos, model_loc,GL_TRIANGLES)
+        desenhar_objetos(VAO[13], texturas[13], flame_indices,flame_pos, model_loc, GL_TRIANGLES)
+
 
         pygame.display.flip()
-
-    pygame.quit()
