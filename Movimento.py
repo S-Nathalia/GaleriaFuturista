@@ -26,13 +26,13 @@ def configura_teclas_movimento():
     # Define as teclas para se movimentar
     tecla_pressionada = pygame.key.get_pressed()
     if tecla_pressionada[pygame.K_a]:
-        cam.process_keyboard("LEFT", 0.02)
+        cam.process_keyboard("LEFT", 0.06)
     if tecla_pressionada[pygame.K_d]:
-        cam.process_keyboard("RIGHT", 0.02)
+        cam.process_keyboard("RIGHT", 0.06)
     if tecla_pressionada[pygame.K_w]:
-        cam.process_keyboard("FORWARD", 0.02)
+        cam.process_keyboard("FORWARD", 0.06)
     if tecla_pressionada[pygame.K_s]:
-        cam.process_keyboard("BACKWARD", 0.02)
+        cam.process_keyboard("BACKWARD", 0.06)
 
 def configura_mouse():
 

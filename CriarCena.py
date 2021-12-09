@@ -80,7 +80,7 @@ def criar():
     sala_indices, sala_buffer = CarregarObj.carregar_model("meshes/chao/chao.obj")
     banco_indices, banco_buffer = CarregarObj.carregar_model("meshes/banco/banco.obj")
     mulher_indices, mulher_buffer = CarregarObj.carregar_model("meshes/mulher_sentada/mulher_sentada.obj")
-    nave_indices, nave_buffer = CarregarObj.carregar_model("meshes/nave/untitled.obj")
+    nave_indices, nave_buffer = CarregarObj.carregar_model("meshes/nave/nave.obj")
     quadro1_indices, quadro1_buffer = CarregarObj.carregar_model("meshes/quadro/quadro1.obj")
     quadro2_indices, quadro2_buffer = CarregarObj.carregar_model("meshes/quadro/quadro2.obj")
     quadro3_indices, quadro3_buffer = CarregarObj.carregar_model("meshes/quadro/quadro3.obj")
@@ -147,7 +147,7 @@ def criar():
     quadro3_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-25, 3, 6]))
     quadro4_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 3, 25]))
     peca_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([22, 0.1, 5]))
-    flame_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-10, 1, 13]))
+    flame_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([21, -1, -5]))
 
     model_loc = glGetUniformLocation(shader, "model")
     proj_loc = glGetUniformLocation(shader, "projection")
