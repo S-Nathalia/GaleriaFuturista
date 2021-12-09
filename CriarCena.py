@@ -84,15 +84,16 @@ def criar():
     quadro1_indices, quadro1_buffer = CarregarObj.carregar_model("meshes/quadro/quadro.obj")
     quadro2_indices, quadro2_buffer = CarregarObj.carregar_model("meshes/quadro/quadro2.obj")
     bola_indices, bola_buffer = CarregarObj.carregar_model("meshes/objetos extras/bola.obj")
+    flame_indices, flame_buffer = CarregarObj.carregar_model("meshes/objetos extras/fogo.obj")
 
     shader = compileProgram(compileShader(
         vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 
     # VAO e VBO
-    VAO = glGenVertexArrays(11)
-    VBO = glGenBuffers(11)
+    VAO = glGenVertexArrays(12)
+    VBO = glGenBuffers(12)
     EBO = glGenBuffers(1)
-    texturas = glGenTextures(11)
+    texturas = glGenTextures(12)
 
     sala(VAO[0], VBO[0], sala_buffer)
     sala(VAO[1], VBO[1], sala_buffer)
@@ -102,6 +103,7 @@ def criar():
     sala(VAO[8], VBO[8], quadro1_buffer)
     sala(VAO[9], VBO[9], quadro1_buffer)
     sala(VAO[10], VBO[10], bola_buffer)
+    sala(VAO[11], VBO[11], flame_buffer)
 
     cubo(VAO[3], VBO[3], cubo_buffer, EBO, cubo_indices)
     cubo(VAO[4], VBO[4], cubo_buffer, EBO, cubo_indices)
@@ -118,6 +120,7 @@ def criar():
     carregar_texturas("meshes/quadro/quadro1.jpg", texturas[8])
     carregar_texturas("meshes/quadro/quadro5.jpg", texturas[9])
     carregar_texturas("meshes/texturas_auxiliar/prata.jpg", texturas[10])
+    carregar_texturas("meshes/texturas_auxiliar/red.jpg", texturas[11])
 
     glUseProgram(shader)
     glClearColor(0, 0.1, 0.1, 1)
@@ -137,6 +140,7 @@ def criar():
     quadro1_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 6, -15]))
     quadro2_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([10, 6, -15]))
     bola_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([15, 1, 10]))
+    flame_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-5, 1, 5]))
 
     model_loc = glGetUniformLocation(shader, "model")
     proj_loc = glGetUniformLocation(shader, "projection")
@@ -169,12 +173,9 @@ def criar():
         view = cam.get_view_matrix()
         glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
-        desenhar_cubo(cubo_picasso_pos, cubo_indices,
-                      VAO[3], texturas[3], ct, model_loc)
-        desenhar_cubo(cubo_vahgogh_pos, cubo_indices,
-                      VAO[4], texturas[4], ct, model_loc)
-        desenhar_cubo(cubo_davinci_pos, cubo_indices,
-                      VAO[5], texturas[5], ct, model_loc)
+        desenhar_cubo(cubo_picasso_pos, cubo_indices, VAO[3], texturas[3], ct, model_loc)
+        desenhar_cubo(cubo_vahgogh_pos, cubo_indices, VAO[4], texturas[4], ct, model_loc)
+        desenhar_cubo(cubo_davinci_pos, cubo_indices, VAO[5], texturas[5], ct, model_loc)
 
         desenhar_objetos(VAO[0], texturas[0], sala_indices,chao_pos, model_loc, GL_TRIANGLES)
         desenhar_objetos(VAO[2], texturas[2], mulher_indices,mulher_pos, model_loc, GL_TRIANGLES)
@@ -184,5 +185,6 @@ def criar():
         desenhar_objetos(VAO[8], texturas[8], quadro1_indices,quadro1_pos, model_loc, GL_TRIANGLES)
         desenhar_objetos(VAO[9], texturas[9], quadro2_indices,quadro2_pos, model_loc, GL_TRIANGLES)
         desenhar_objetos(VAO[10], texturas[10], bola_indices, bola_pos, model_loc, GL_TRIANGLES)
+        desenhar_objetos(VAO[11], texturas[11], flame_indices,flame_pos, model_loc, GL_TRIANGLES)
 
         pygame.display.flip()
