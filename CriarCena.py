@@ -83,7 +83,6 @@ def criar():
     nave_indices, nave_buffer = CarregarObj.carregar_model("meshes/nave/nave.obj")
     quadro1_indices, quadro1_buffer = CarregarObj.carregar_model("meshes/quadro/quadro.obj")
     quadro2_indices, quadro2_buffer = CarregarObj.carregar_model("meshes/quadro/quadro2.obj")
-    bola_indices, bola_buffer = CarregarObj.carregar_model("meshes/objetos extras/bola.obj")
     flame_indices, flame_buffer = CarregarObj.carregar_model("meshes/objetos extras/fogo.obj")
 
     shader = compileProgram(compileShader(
@@ -102,7 +101,6 @@ def criar():
     sala(VAO[7], VBO[7], nave_buffer)
     sala(VAO[8], VBO[8], quadro1_buffer)
     sala(VAO[9], VBO[9], quadro1_buffer)
-    sala(VAO[10], VBO[10], bola_buffer)
     sala(VAO[11], VBO[11], flame_buffer)
 
     cubo(VAO[3], VBO[3], cubo_buffer, EBO, cubo_indices)
@@ -119,7 +117,6 @@ def criar():
     carregar_texturas("meshes/nave/ufo_diffuse.png", texturas[7])
     carregar_texturas("meshes/quadro/quadro1.jpg", texturas[8])
     carregar_texturas("meshes/quadro/quadro5.jpg", texturas[9])
-    carregar_texturas("meshes/texturas_auxiliar/prata.jpg", texturas[10])
     carregar_texturas("meshes/texturas_auxiliar/red.jpg", texturas[11])
 
     glUseProgram(shader)
@@ -139,8 +136,7 @@ def criar():
     nave_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 19, -15]))
     quadro1_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 6, -15]))
     quadro2_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([10, 6, -15]))
-    bola_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([15, 1, 10]))
-    flame_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-5, 1, 5]))
+    flame_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-10, 1, 13]))
 
     model_loc = glGetUniformLocation(shader, "model")
     proj_loc = glGetUniformLocation(shader, "projection")
@@ -184,7 +180,6 @@ def criar():
         desenhar_objetos(VAO[7], texturas[7], nave_indices,nave_pos, model_loc, GL_TRIANGLES)
         desenhar_objetos(VAO[8], texturas[8], quadro1_indices,quadro1_pos, model_loc, GL_TRIANGLES)
         desenhar_objetos(VAO[9], texturas[9], quadro2_indices,quadro2_pos, model_loc, GL_TRIANGLES)
-        desenhar_objetos(VAO[10], texturas[10], bola_indices, bola_pos, model_loc, GL_TRIANGLES)
         desenhar_objetos(VAO[11], texturas[11], flame_indices,flame_pos, model_loc, GL_TRIANGLES)
 
         pygame.display.flip()
